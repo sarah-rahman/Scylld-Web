@@ -1,8 +1,7 @@
 import React from "react";
-import Homepage from "./containers/Homepage/index";
-import "./App.css";
-
-class App extends React.Component {
+// import StyledButton from "../../components/Button";
+import NavBar from "../../components/NavBar";
+export default class Homepage extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -26,13 +25,15 @@ class App extends React.Component {
 
   render() {
     // Check Layout if it is mobile, tablet, or desktop
-    // const { width } = this.state;
-    // const isMobile = width <= 600;
-    // const isTablet = width > 600 && width < 960;
-    // const isDesktop = width >= 960;
+    const { width } = this.state;
+    const isMobile = width <= 600;
+    const isTablet = width > 600 && width < 960;
+    const isDesktop = width >= 960;
 
-    return <Homepage />;
+    return (
+      <div>
+        <NavBar />
+      </div>
+    );
   }
 }
-
-export default App;
