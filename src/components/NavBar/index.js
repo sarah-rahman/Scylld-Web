@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import { Menu, MenuItem } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,15 +21,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NavBar(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
 
   const width = window.innerWidth;
   const isMobile = width <= 600;
+  const isTablet = width > 600 && width < 960;
+  const isDesktop = width >= 960;
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <div className={classes.root}>
       <AppBar position="static" style={{ backgroundColor: "black" }}>
-        {!isMobile && (
+        {(isTablet || isDesktop) && (
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
               Scylld.
@@ -40,23 +52,37 @@ export default function NavBar(props) {
               variant="contained"
               style={{ color: "white", backgroundColor: "grey" }}
             >
-              GetQuote
+              Get Quote
             </Button>
           </Toolbar>
         )}
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Scylld.
-          </Typography>
-          <IconButton
-            edge="end"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
+        {isMobile && (
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              Scylld.
+            </Typography>
+            <IconButton
+              edge="end"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon aria-haspopup="true" onClick={handleClick} />
+            </IconButton>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>About</MenuItem>
+              <MenuItem onClick={handleClose}>Services</MenuItem>
+              <MenuItem onClick={handleClose}>Contact</MenuItem>
+              <MenuItem onClick={handleClose}>Get Quote</MenuItem>
+            </Menu>
+          </Toolbar>
+        )}
       </AppBar>
     </div>
   );
